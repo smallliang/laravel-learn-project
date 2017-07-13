@@ -5845,7 +5845,7 @@ section.user_info {
 /* forms */
 input, textarea, select, .uneditable-input {
   border: 1px solid #bbb;
-  width: 100%;
+  width: auto;
   margin-bottom: 15px; }
 
 input {
@@ -5853,5 +5853,13 @@ input {
 
 .panel {
   margin-top: 50px; }
+
+/* Users edit */
+.gravatar_edit {
+  margin: 15px auto;
+  text-align: center; }
+  .gravatar_edit .gravatar {
+    float: none;
+    max-width: 100px; }
 
 /*# sourceMappingURL=app.css.map */
