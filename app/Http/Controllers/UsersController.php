@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 use App\Models\User;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -12,8 +13,18 @@ class UsersController extends Controller
     public function __construct()
     {
         $this->middleware('auth',[
-            'only' => ['edit', 'update']
+            'only' => ['edit', 'update', 'destroy']
         ]);
+        $this->middleware('guest', [
+            'only' => ['create']
+        ]);
+    }
+
+    public function index()
+    {
+        $users = User::all();
+        $users = User::paginate(30);
+        return view('users.index',compact('users'));
     }
 
     public function create()
@@ -71,6 +82,15 @@ class UsersController extends Controller
         session()->flash('success', '个人资料更新成功！');
 
         return redirect()->route('users.show', $id);
+    }
+
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        $this->authorize('destroy', $user);
+        $user->delete();
+        session()->flash('success', '成功删除用户！');
+        return back();
     }
 
 
